@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 //import du package pour les token
 const jwt = require('jsonwebtoken');
 
+
 const User = require('../models/user');
 
 //fonction pour créer un nouvel utilisateur en bdd

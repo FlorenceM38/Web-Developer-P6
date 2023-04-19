@@ -8,7 +8,8 @@ const app = express();
 const mongoose = require('mongoose');
 
 //import des routes
-const userRoutes = require('./routes/user')
+const userRoutes = require('./routes/user');
+const sauceRoutes = require('./routes/sauces');
 
 //acces à l'api avec les headers définis
 app.use((req, res, next) => {
@@ -25,9 +26,13 @@ mongoose.connect('mongodb+srv://florencemaffini:xmXxKIFZs5vBxSed@piquante.dp4hdv
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+
+//middelware pour intercepter toutes les requêtes qui contiennent du json et qui le met à dispo sur l'objet requete dans req.body
 app.use(express.json())
+
 //routes
 app.use('/api/auth', userRoutes);
+app.use('/api/sauces', sauceRoutes);
 
 module.exports = app;
 
