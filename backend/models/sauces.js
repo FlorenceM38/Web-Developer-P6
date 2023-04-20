@@ -8,7 +8,7 @@ const sauceSchema = mongoose.Schema({
     manufacturer: { type: String, required: true }, //le fabriquant de la sauce
     description: { type: String, required: true }, //la description de la sauce
     mainPepper: { type: String, required: true }, //les ingrédients de la sauce
-    image: { type: String, required: true }, //l'url de l'image de la sauce
+    imageUrl: { type: String, required: true }, //l'url de l'image de la sauce
     heat: { type: Number, required: true }, //le niveau de piquant de la sauce
 
 })

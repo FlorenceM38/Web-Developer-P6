@@ -7,6 +7,8 @@ const app = express();
 //lien avec entre la bdd et le server
 const mongoose = require('mongoose');
 
+const path = require('path');
+
 //import des routes
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauces');
@@ -33,6 +35,7 @@ app.use(express.json())
 //routes
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', sauceRoutes);
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;
 
