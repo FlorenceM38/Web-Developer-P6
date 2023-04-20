@@ -1,9 +1,9 @@
-const sauces = require('../models/sauces');
+const Sauce = require('../models/sauces');
 
 
 exports.createSauce = (req, res, next) => {
     delete req.body._id;
-    const sauce = new sauce({
+    const sauce = new Sauce({
       ...req.body
     });
     sauce.save()
@@ -12,26 +12,26 @@ exports.createSauce = (req, res, next) => {
   }; 
 
 exports.modifySauce = (req, res, next) => {
-    sauce.updateOne({ _id: req.params.id }, {...req.body, _id: req.params.id})
+    Sauce.updateOne({ _id: req.params.id }, {...req.body, _id: req.params.id})
     .then(() => res.status(200).json({ message : 'sauce modifiée'}))
     .catch(error => res.status(400).json({ error }));
    };
 
 exports.deleteSauce = (req, res, next) => {
-  sauce.deleteOne({ _id: req.params.id })
+  Sauce.deleteOne({ _id: req.params.id })
   .then(() => res.status(200).json({ message : 'sauce supprimée'}))
   .catch(error => res.status(400).json({ error }));
 };
 
 
 exports.getOneSauce = (req, res, next) => {
-  sauce.findOne({ _id: req.params.id })
+  Sauce.findOne({ _id: req.params.id })
   .then(sauce => res.status(200).json(sauce))
   .catch(error => res.status(404).json({ error }));
 };
 
 exports.getAllSauces = (req, res, next) => {
-  sauce.find()
+  Sauce.find()
   .then(sauces => res.status(200).json(sauces))
   .catch(error => res.status(400).json({ error }));
 };
