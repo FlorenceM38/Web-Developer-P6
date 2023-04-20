@@ -1,30 +1,19 @@
 const express = require('express');
 const router = express.Router();
-
+const auth = require('../middleware/auth');
+const multer = require('../middleware/multer-config');
 
 const sauceCtrl = require('../controllers/sauces')
 
-router.post('/', sauceCtrl.createSauce);
+router.post('/', auth, sauceCtrl.createSauce);
 
-router.put('/:id', sauceCtrl.modifySauce);
+router.put('/:id', auth, sauceCtrl.modifySauce);
   
-  router.delete('/:id', (req, res, next) => {
-    sauce.deleteOne({ _id: req.params.id })
-    .then(() => res.status(200).json({ message : 'sauce supprimée'}))
-    .catch(error => res.status(400).json({ error }));
-  });
+router.delete('/:id', auth, sauceCtrl.deleteSauce);
   
-  router.get('/:id', (req, res, next) => {
-    sauce.findOne({ _id: req.params.id })
-    .then(sauce => res.status(200).json(sauce))
-    .catch(error => res.status(404).json({ error }));
-  });
+router.get('/:id', auth, sauceCtrl.getOneSauce);
   
-  router.get('/', (req, res, next) => {
-    sauce.find()
-    .then(sauces => res.status(200).json(sauces))
-    .catch(error => res.status(400).json({ error }));
-  });
+router.get('/', auth, sauceCtrl.getAllSauces);
   
 
 
