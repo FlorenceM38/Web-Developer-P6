@@ -1,3 +1,4 @@
+const { log } = require('console');
 const Sauce = require('../models/sauces');
 const fs = require('fs');
 
@@ -29,6 +30,7 @@ exports.createSauce = (req, res, next) => {
 exports.modifySauce = (req, res, next) => {
   //on vérifie si il y a un champ file 
   const sauceObjet = req.file ?
+  
     // si c'est le cas on recupère notre objet en parsant la string et en recréant l'url de l'image
     {
       ...JSON.parse(req.body.sauce),
@@ -39,7 +41,7 @@ exports.modifySauce = (req, res, next) => {
   //on supprime le userId pour des raisons de sécurité
   delete sauceObjet._userId;
   //on vient recuperer notre objet en bdd
-  sauce.findOne({ _id: req.params.id })
+  Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       //si l'userId qu'on recupère en bdd est différent de l'user id qu'on recupère de notre token
       if (sauce.userId != req.auth.userId) {
@@ -48,18 +50,19 @@ exports.modifySauce = (req, res, next) => {
       }
       //sinon on met à jour donc on passe un filtre qui va dire quel enregistrement mettre à jour et avec quel objet
       else {
-        sauce.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+        Sauce.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
           .then(() => res.status(200).json({ message: 'sauce modifiée' }))
           .catch(error => res.status(400).json({ error }));
       }
     })
     .catch(error => res.status(400).json({ error }));
+    
 };
 
 
 exports.deleteSauce = (req, res, next) => {
   //on vient recuperer notre objet en bdd
-  sauce.findOne({ _id: req.params.id })
+  Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
       //on vérifie que c'est bien le propriétaire de l'objet qui en demande la suppression
       if (sauce.userId != req.auth.userId) {
