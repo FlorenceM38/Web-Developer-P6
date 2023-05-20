@@ -30,7 +30,6 @@ exports.createSauce = (req, res, next) => {
 exports.modifySauce = (req, res, next) => {
   //on vérifie si il y a un champ file 
   const sauceObjet = req.file ?
-
     // si c'est le cas on recupère notre objet en parsant la string et en recréant l'url de l'image
     {
       ...JSON.parse(req.body.sauce),
@@ -50,17 +49,25 @@ exports.modifySauce = (req, res, next) => {
       }
       //sinon on met à jour donc on passe un filtre qui va dire quel enregistrement mettre à jour et avec quel objet
       else {
-        //on recupere le nom du fichier
+        //si il y a image à modifier on supprime l'ancienne
+        if(req.file){
+           //on recupere le nom du fichier
         const filename = sauce.imageUrl.split('/images/')[1];
         fs.unlink(`images/${filename}`, () => {
           Sauce.updateOne({ _id: req.params.id }, sauceObjet)
             .then(() => res.status(200).json({ sauce }))
             .catch(error => res.status(400).json({ error }));
         })
+        }
+        //si on modifie des infos mais pas l'image on met juste la sauce à jour sans delete la photo
+        else {
+          Sauce.updateOne({ _id: req.params.id }, sauceObjet)
+            .then(() => res.status(200).json({ sauce }))
+            .catch(error => res.status(400).json({ error }));
+        }
       }
     })
     .catch(error => res.status(400).json({ error }));
-
 };
 
 
