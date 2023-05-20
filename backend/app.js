@@ -14,6 +14,9 @@ const path = require('path');
 //import dotenv pour les variables d'environnement
 require('dotenv').config();
 
+//package pour rajouter de la sécurité à express avec des en-têtes http
+const helmet = require('helmet');
+
 //import des routes
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauces');
@@ -32,6 +35,12 @@ mongoose.connect(`mongodb+srv://${process.env.USER_MONGOBDD}:${process.env.PASSW
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+//configuration de helmet pour la sécurité
+app.use(helmet.contentSecurityPolicy({directives: {
+  ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+  'img-src': ["'self", '*'],
+}}))
 
 
 //middelware pour intercepter toutes les requêtes qui contiennent du json et qui le met à dispo sur l'objet requete dans req.body
