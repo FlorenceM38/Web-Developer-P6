@@ -7,7 +7,12 @@ const app = express();
 //lien avec entre la bdd et le server
 const mongoose = require('mongoose');
 
+
+//chemin serveur
 const path = require('path');
+
+//import dotenv pour les variables d'environnement
+require('dotenv').config();
 
 //import des routes
 const userRoutes = require('./routes/user');
@@ -22,7 +27,7 @@ app.use((req, res, next) => {
 });
 
 //mongoose
-mongoose.connect('mongodb+srv://florencemaffini:xmXxKIFZs5vBxSed@piquante.dp4hdvk.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect(`mongodb+srv://${process.env.USER_MONGOBDD}:${process.env.PASSWORD_MONGOBDD}@piquante.dp4hdvk.mongodb.net/?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
