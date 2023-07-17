@@ -21,7 +21,7 @@ const helmet = require('helmet');
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauces');
 
-//acces à l'api avec les headers définis
+//acces à l'api avec les headers définis depuis n'importe quelle origine avec les méthodes mentionnées
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');

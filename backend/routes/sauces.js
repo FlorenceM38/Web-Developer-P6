@@ -1,4 +1,5 @@
 const express = require('express');
+//creation du router
 const router = express.Router();
 
 //import du middleware auth
